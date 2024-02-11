@@ -1,7 +1,10 @@
-// usermodel.js
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+    },
     username: {
         type: String,
         required: true,
@@ -10,33 +13,37 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        validate: {
-            validator: (value) => /\S+@\S+\.\S+/.test(value),
-            message: 'Invalid email address: ',
+        match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    },
+    address: {
+        street: String,
+        suite: String,
+        city: {
+            type: String,
+            required: true,
+            match: /^[A-Za-z\s]+$/,
         },
-    },
-    city: {
-        type: String,
-        required: true,
-        match: /^[a-zA-Z\s]+$/,
-    },
-    website: {
-        type: String,
-        required: true,
-        validate: {
-            validator: (value) => /^(http|https):\/\/\S+$/.test(value),
-            message: 'Invalid URL format',
+        zipcode: {
+            type: String,
+            match: /^\d{5}-\d{4}$/,
         },
-    },
-    zipCode: {
-        type: String,
-        required: true,
-        match: /^\d{5}-\d{4}$/,
+        geo: {
+            lat: String,
+            lng: String,
+        },
     },
     phone: {
         type: String,
-        required: true,
         match: /^1-\d{3}-\d{3}-\d{4}$/,
+    },
+    website: {
+        type: String,
+        match: /^https?:\/\/.+/,
+    },
+    company: {
+        name: String,
+        catchPhrase: String,
+        bs: String,
     },
 });
 
